@@ -1,45 +1,38 @@
-def searching_dict(x, y, i):
-    #print(x,y,i)
-    if i == 0:
-        global answer
-        answer = 'No'
-    if y not in list(d.keys()):
-        if i == 0:
-            print(answer)
-        return
-    if d[y] == 'None':
-        print(answer)
-        return
-    if x in d[y]:
-        answer = 'Yes'
-    elif x not in d[y]:
-        for each in d[y]:
-            searching_dict(x, each, 1)
-    if i == 0:
-        print(answer)
+cls_count = int(input())
+classes = {}
 
-#searching_dict('D', 'A', 0)
 
-d = dict()
-n = int(input())
+def has_parent(cld, prnt):
+    is_found = False
 
-while n > 0:
-    tmp_request = input()
-    if len(tmp_request) == 1:
-        d[tmp_request] = 'None'
+    def inspect_parents(cld, prnt):
+        nonlocal is_found
+        if cld == prnt:
+            is_found = True
+            return
+        elif cld in classes:
+            for cls in classes[cld]:
+                inspect_parents(cls, prnt)
+    inspect_parents(cld, prnt)
+    return is_found
+
+
+for i in range(cls_count):
+    inp = input()
+    if ':' in inp:
+        name, parents = [i.strip() for i in inp.split(':')]
+        if name not in classes:
+            classes[name] = set()
+        for parent in parents.split():
+            classes[name].add(parent.strip())
+    elif inp not in classes:
+        classes[inp] = set()
+
+qs_count = int(input())
+
+for i in range(qs_count):
+    prnt, cld = input().split()
+    if has_parent(cld, prnt):
+        print('Yes')
     else:
-        child, parent = tmp_request.split(":")
-        if len(str(parent).strip()) != 1:
-            tmp_list = list(str(parent).strip().replace(" ", ""))
-            d[str(child).strip()] = tmp_list
-        else:
-            d[str(child).strip()] = [str(parent).strip()]
-    n -= 1
-#print(d)
-
-q = int(input())
-
-while q > 0:
-    parent, child = input().split(" ")
-    searching_dict(parent, child, 0)
-    q -= 1
+        print('No')
