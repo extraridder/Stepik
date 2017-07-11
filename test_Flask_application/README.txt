@@ -1,1 +1,0 @@
-# Flask application is developed like blog
