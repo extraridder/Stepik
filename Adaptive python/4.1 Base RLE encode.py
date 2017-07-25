@@ -1,16 +1,14 @@
-string = 'aaabccccCCaB'
-
-# string = input()
+a = input()
 i = 0
-res = ''
-while i < len(string):
-    s = string[i]
-    j = 1
-    while i+j < len(string) and string[i+j] == s:
+string = []
+while i < len(a):
+    j = 0
+    while i+j < len(a) and a[i+j].isdigit():
         j += 1
-    if j > 1:
-        res += str(j)
-    res += s
-    i += j
+    if j == 0:
+        string.append(a[i])
+    else:
+        string.append(int(a[i:i+j]) * a[i+j])
+    i += j + 1
 
-print(res)
+print(''.join(string))
